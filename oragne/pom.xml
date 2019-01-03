@@ -10,9 +10,9 @@
     <version>1.0.0-SNAPSHOT</version>
     <modules>
         <module>orange-registry</module>
-        <module>orange-api-gateway</module>
-        <module>orange-item</module>
         <module>orange-common</module>
+        <module>orange-item</module>
+        <module>orange-api-gateway</module>
     </modules>
 
     <parent>
