@@ -25,4 +25,4 @@ eureka:
 mybatis:
   mapper-locations: mapping/*.xml
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印SQL

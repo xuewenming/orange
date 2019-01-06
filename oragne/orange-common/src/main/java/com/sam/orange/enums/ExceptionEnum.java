@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public enum  ExceptionEnum {
 
-    CATEGORY_NOT_FOUND(404,"商品分类没有找到");
+    CATEGORY_NOT_FOUND(404,"商品分类没有找到"),
+    BRAND_NOT_FOUND(404,"品牌列表没有找到");
 
     private Integer code;
     private String msg;
