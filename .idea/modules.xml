@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/oragne/orange-item/orange-item-interface/orange-item-interface.iml" filepath="$PROJECT_DIR$/oragne/orange-item/orange-item-interface/orange-item-interface.iml" />
       <module fileurl="file://$PROJECT_DIR$/oragne/orange-item/orange-item-service/orange-item-service.iml" filepath="$PROJECT_DIR$/oragne/orange-item/orange-item-service/orange-item-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/oragne/orange-registry/orange-registry.iml" filepath="$PROJECT_DIR$/oragne/orange-registry/orange-registry.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oragne/orange-upload/orange-upload.iml" filepath="$PROJECT_DIR$/oragne/orange-upload/orange-upload.iml" />
     </modules>
   </component>
 </project>

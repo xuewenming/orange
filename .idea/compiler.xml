@@ -13,6 +13,7 @@
         <module name="orange-item-interface" />
         <module name="orange-item-service" />
         <module name="orange-registry" />
+        <module name="orange-upload" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -23,6 +24,7 @@
       <module name="orange-item-interface" target="1.8" />
       <module name="orange-item-service" target="1.8" />
       <module name="orange-registry" target="1.8" />
+      <module name="orange-upload" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -8,6 +8,13 @@ zuul:
   retryable: true
   routes: #路由正则
     item-service: /item/**
+
+    #upload-service:
+    #  path: /upload/**
+    #  service-name: upload-service
+    #  strip-prefix: false
+  ignored-services: #忽略服务列表
+    - upload-service # 忽略upload-service服务
 eureka:
   client:
     fetch-registry: true

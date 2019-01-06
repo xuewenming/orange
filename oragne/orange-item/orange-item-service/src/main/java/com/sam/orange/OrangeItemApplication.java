@@ -14,8 +14,8 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @EnableEurekaClient
 @SpringBootApplication
 @MapperScan("com.sam.orange.mapper")
-public class OrangeItemService {
+public class OrangeItemApplication {
     public static void main(String[] args) {
-        SpringApplication.run(OrangeItemService.class, args);
+        SpringApplication.run(OrangeItemApplication.class, args);
     }
 }
