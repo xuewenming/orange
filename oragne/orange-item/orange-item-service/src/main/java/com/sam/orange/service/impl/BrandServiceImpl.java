@@ -3,12 +3,15 @@ package com.sam.orange.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sam.orange.Brand;
+import com.sam.orange.enums.ExceptionEnum;
+import com.sam.orange.exception.OrangeException;
 import com.sam.orange.mapper.BrandMapper;
 import com.sam.orange.service.BrandService;
 import com.sam.orange.vo.PageResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -39,5 +42,20 @@ public class BrandServiceImpl implements BrandService {
         long total = pageInfo.getTotal();
 
         return new PageResult(total,pageInfo);
+    }
+
+    @Transactional(rollbackFor = OrangeException.class)
+    @Override
+    public void addBrand(Brand brand, List<Long> cids) {
+        brand.setId(null);
+        int brandNum = brandMapper.addBrand(brand);
+        if( brandNum == 0 ) {
+            throw new OrangeException(ExceptionEnum.BRAND_INSERT_ERROR);
+        }
+
+        int categroyAndBrandNum = brandMapper.addBrandAndCategroy(cids, brand.getId());
+        if ( categroyAndBrandNum == 0) {
+            throw new OrangeException(ExceptionEnum.CATEGROYANDBRAND_INSERT_ERROR);
+        }
     }
 }

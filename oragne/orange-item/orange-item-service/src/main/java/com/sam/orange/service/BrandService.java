@@ -3,6 +3,8 @@ package com.sam.orange.service;
 import com.sam.orange.Brand;
 import com.sam.orange.vo.PageResult;
 
+import java.util.List;
+
 /**
  * 商品品牌服务层接口
  * @author Sam
@@ -20,4 +22,11 @@ public interface BrandService {
      * @return
      */
     PageResult<Brand> queryBrandPage(String key, Integer page, Integer rows, String sortBy, Boolean desc);
+
+    /**
+     * 新增品牌
+     * @param brand
+     * @param cids
+     */
+    void addBrand(Brand brand, List<Long> cids);
 }

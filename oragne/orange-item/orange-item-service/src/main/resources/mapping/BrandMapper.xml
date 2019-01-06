@@ -219,6 +219,19 @@
           </if>
         </if>
       </if>
-
   </select>
+  <insert id="addBrand" parameterType="com.sam.orange.Brand" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_brand (id, name, image,
+      letter)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR},
+      #{letter,jdbcType=CHAR})
+  </insert>
+  <insert id="addBrandAndCategroy">
+    INSERT INTO tb_category_brand (category_id, brand_id)
+    VALUES
+    <foreach collection="cids" item="item" separator="," index="index">
+      (#{item,jdbcType=BIGINT},
+      #{bid,jdbcType=BIGINT})
+    </foreach>
+  </insert>
 </mapper>

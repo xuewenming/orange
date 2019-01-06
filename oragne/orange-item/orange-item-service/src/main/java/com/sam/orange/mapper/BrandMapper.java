@@ -37,4 +37,20 @@ public interface BrandMapper {
      * @return
      */
     List<Brand> queryBrandPage(@Param("key") String key, @Param("sortBy") String sortBy, @Param("desc") Boolean desc);
+
+    /**
+     * 新增品牌并返回主键id
+     * @param brand
+     * @return
+     */
+    int addBrand(Brand brand);
+
+
+    /**
+     * 品牌和分类关系表
+     * @param bid
+     * @param cid
+     * @return
+     */
+    int addBrandAndCategroy(@Param("cids") List<Long> cids, @Param("bid") Long bid);
 }
