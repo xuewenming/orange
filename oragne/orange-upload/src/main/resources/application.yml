@@ -3,6 +3,10 @@ server:
 spring:
   application:
     name: upload-service
+  servlet:
+    multipart:
+      max-file-size: 5MB #单个文件大小
+      max-request-size: 20MB #总上传数据大小
 eureka:
   client:
     register-with-eureka: true
@@ -15,3 +19,18 @@ eureka:
     prefer-ip-address: true
     ip-address: 127.0.0.1
     instance-id: ${spring.application.name}:${server.port}
+fdfs:
+  so-timeout: 1501
+  connect-timeout: 601
+  thumb-image: # 缩略图
+    width: 60
+    height: 60
+  tracker-list: # tracker地址
+    - 192.168.24.129:22122
+orange:
+  upload:
+    defaultUrl: http://image.orange.com
+    allowTypes:
+      - image/jpeg
+      - image/png
+      - image/bmp
