@@ -35,4 +35,10 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return categories;
     }
+
+    @Override
+    public List<String> queryListCategoryNamesById(List<Long> cids) {
+        List<String> name = categoryMapper.queryListCategoryNamesById(cids);
+        return name;
+    }
 }

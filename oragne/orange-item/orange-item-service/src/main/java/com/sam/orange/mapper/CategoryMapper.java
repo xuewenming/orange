@@ -28,4 +28,11 @@ public interface CategoryMapper {
     int updateByPrimaryKeySelective(Category record);
 
     int updateByPrimaryKey(Category record);
+
+    /**
+     * 根据分类ID查询分类名称
+     * @param cids
+     * @return
+     */
+    List<String> queryListCategoryNamesById(@Param("cids") List<Long> cids);
 }
