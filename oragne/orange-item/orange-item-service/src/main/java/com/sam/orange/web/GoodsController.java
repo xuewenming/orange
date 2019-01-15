@@ -3,13 +3,11 @@ package com.sam.orange.web;
 import com.sam.orange.Bo.SpuBo;
 import com.sam.orange.service.GoodsService;
 import com.sam.orange.vo.PageResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 商品列表Controller
@@ -17,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019/1/13
  * @time 20:17
  */
+@Slf4j
 @RestController
-@RequestMapping("spu")
 public class GoodsController {
 
     @Autowired
@@ -32,7 +30,7 @@ public class GoodsController {
      * @param rows 每页显示商品数
      * @return
      */
-    @GetMapping("page")
+    @GetMapping("spu/page")
     public ResponseEntity<PageResult<SpuBo>> getAllSpuPage(
             @RequestParam(value = "key",required = false) String key,
             @RequestParam(value = "saleable", required = false) Boolean saleable,
@@ -44,6 +42,22 @@ public class GoodsController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(pageResult);
+    }
+
+    /**
+     * 保存商品信息
+     * @param spuBo
+     * @return
+     */
+    @PostMapping("goods")
+    public ResponseEntity<PageResult<Void>> saveGoods(@RequestBody SpuBo spuBo) {
+        try {
+            goodsService.saveGoods(spuBo);
+        } catch (Exception e) {
+            log.error("保存商品失败,{}",e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }

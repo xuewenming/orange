@@ -29,4 +29,11 @@ public interface BrandService {
      * @param cids
      */
     void addBrand(Brand brand, List<Long> cids);
+
+    /**
+     * 根据分类ID查询商品品牌
+     * @param cid
+     * @return
+     */
+    List<Brand> getBrandById(Long cid);
 }

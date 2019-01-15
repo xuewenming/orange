@@ -58,4 +58,10 @@ public class BrandServiceImpl implements BrandService {
             throw new OrangeException(ExceptionEnum.CATEGROYANDBRAND_INSERT_ERROR);
         }
     }
+
+    @Override
+    public List<Brand> getBrandById(Long cid) {
+        List<Brand> brands = brandMapper.getCateGroyAndBrandByCid(cid);
+        return brands;
+    }
 }

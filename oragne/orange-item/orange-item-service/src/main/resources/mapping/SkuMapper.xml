@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sam.orange.mapper.SpuMapper">
-  <resultMap id="BaseResultMap" type="com.sam.orange.Spu">
+<mapper namespace="com.sam.orange.mapper.SkuMapper">
+  <resultMap id="BaseResultMap" type="com.sam.orange.Sku">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="spu_id" jdbcType="BIGINT" property="spuId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="sub_title" jdbcType="VARCHAR" property="subTitle" />
-    <result column="cid1" jdbcType="BIGINT" property="cid1" />
-    <result column="cid2" jdbcType="BIGINT" property="cid2" />
-    <result column="cid3" jdbcType="BIGINT" property="cid3" />
-    <result column="brand_id" jdbcType="BIGINT" property="brandId" />
-    <result column="saleable" jdbcType="BIT" property="saleable" />
-    <result column="valid" jdbcType="BIT" property="valid" />
+    <result column="images" jdbcType="VARCHAR" property="images" />
+    <result column="price" jdbcType="BIGINT" property="price" />
+    <result column="indexes" jdbcType="VARCHAR" property="indexes" />
+    <result column="own_spec" jdbcType="VARCHAR" property="ownSpec" />
+    <result column="enable" jdbcType="BIT" property="enable" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
   </resultMap>
@@ -73,15 +72,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, title, sub_title, cid1, cid2, cid3, brand_id, saleable, valid, create_time, last_update_time
+    id, spu_id, title, images, price, indexes, own_spec, enable, create_time, last_update_time
   </sql>
-  <select id="selectByExample" parameterType="com.sam.orange.SpuExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.sam.orange.SkuExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_spu
+    from tb_sku
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,58 +91,55 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tb_spu
+    from tb_sku
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from tb_spu
+    delete from tb_sku
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.sam.orange.SpuExample">
-    delete from tb_spu
+  <delete id="deleteByExample" parameterType="com.sam.orange.SkuExample">
+    delete from tb_sku
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.sam.orange.Spu" useGeneratedKeys="true" keyProperty="id">
-    insert into tb_spu (id, title, sub_title, 
-      cid1, cid2, cid3, brand_id, 
-      saleable, valid, create_time, 
+  <insert id="insert" parameterType="com.sam.orange.Sku" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_sku (id, spu_id, title, 
+      images, price, indexes, 
+      own_spec, enable, create_time, 
       last_update_time)
-    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{subTitle,jdbcType=VARCHAR}, 
-      #{cid1,jdbcType=BIGINT}, #{cid2,jdbcType=BIGINT}, #{cid3,jdbcType=BIGINT}, #{brandId,jdbcType=BIGINT}, 
-      #{saleable,jdbcType=BIT}, #{valid,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{spuId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
+      #{images,jdbcType=VARCHAR}, #{price,jdbcType=BIGINT}, #{indexes,jdbcType=VARCHAR}, 
+      #{ownSpec,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{lastUpdateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.sam.orange.Spu">
-    insert into tb_spu
+  <insert id="insertSelective" parameterType="com.sam.orange.Sku">
+    insert into tb_sku
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
+      <if test="spuId != null">
+        spu_id,
+      </if>
       <if test="title != null">
         title,
       </if>
-      <if test="subTitle != null">
-        sub_title,
+      <if test="images != null">
+        images,
       </if>
-      <if test="cid1 != null">
-        cid1,
+      <if test="price != null">
+        price,
       </if>
-      <if test="cid2 != null">
-        cid2,
+      <if test="indexes != null">
+        indexes,
       </if>
-      <if test="cid3 != null">
-        cid3,
+      <if test="ownSpec != null">
+        own_spec,
       </if>
-      <if test="brandId != null">
-        brand_id,
-      </if>
-      <if test="saleable != null">
-        saleable,
-      </if>
-      <if test="valid != null">
-        valid,
+      <if test="enable != null">
+        enable,
       </if>
       <if test="createTime != null">
         create_time,
@@ -156,29 +152,26 @@
       <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
+      <if test="spuId != null">
+        #{spuId,jdbcType=BIGINT},
+      </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="subTitle != null">
-        #{subTitle,jdbcType=VARCHAR},
+      <if test="images != null">
+        #{images,jdbcType=VARCHAR},
       </if>
-      <if test="cid1 != null">
-        #{cid1,jdbcType=BIGINT},
+      <if test="price != null">
+        #{price,jdbcType=BIGINT},
       </if>
-      <if test="cid2 != null">
-        #{cid2,jdbcType=BIGINT},
+      <if test="indexes != null">
+        #{indexes,jdbcType=VARCHAR},
       </if>
-      <if test="cid3 != null">
-        #{cid3,jdbcType=BIGINT},
+      <if test="ownSpec != null">
+        #{ownSpec,jdbcType=VARCHAR},
       </if>
-      <if test="brandId != null">
-        #{brandId,jdbcType=BIGINT},
-      </if>
-      <if test="saleable != null">
-        #{saleable,jdbcType=BIT},
-      </if>
-      <if test="valid != null">
-        #{valid,jdbcType=BIT},
+      <if test="enable != null">
+        #{enable,jdbcType=BIT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -188,41 +181,38 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.sam.orange.SpuExample" resultType="java.lang.Long">
-    select count(*) from tb_spu
+  <select id="countByExample" parameterType="com.sam.orange.SkuExample" resultType="java.lang.Long">
+    select count(*) from tb_sku
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update tb_spu
+    update tb_sku
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
+      <if test="record.spuId != null">
+        spu_id = #{record.spuId,jdbcType=BIGINT},
+      </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.subTitle != null">
-        sub_title = #{record.subTitle,jdbcType=VARCHAR},
+      <if test="record.images != null">
+        images = #{record.images,jdbcType=VARCHAR},
       </if>
-      <if test="record.cid1 != null">
-        cid1 = #{record.cid1,jdbcType=BIGINT},
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=BIGINT},
       </if>
-      <if test="record.cid2 != null">
-        cid2 = #{record.cid2,jdbcType=BIGINT},
+      <if test="record.indexes != null">
+        indexes = #{record.indexes,jdbcType=VARCHAR},
       </if>
-      <if test="record.cid3 != null">
-        cid3 = #{record.cid3,jdbcType=BIGINT},
+      <if test="record.ownSpec != null">
+        own_spec = #{record.ownSpec,jdbcType=VARCHAR},
       </if>
-      <if test="record.brandId != null">
-        brand_id = #{record.brandId,jdbcType=BIGINT},
-      </if>
-      <if test="record.saleable != null">
-        saleable = #{record.saleable,jdbcType=BIT},
-      </if>
-      <if test="record.valid != null">
-        valid = #{record.valid,jdbcType=BIT},
+      <if test="record.enable != null">
+        enable = #{record.enable,jdbcType=BIT},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -236,48 +226,44 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tb_spu
+    update tb_sku
     set id = #{record.id,jdbcType=BIGINT},
+      spu_id = #{record.spuId,jdbcType=BIGINT},
       title = #{record.title,jdbcType=VARCHAR},
-      sub_title = #{record.subTitle,jdbcType=VARCHAR},
-      cid1 = #{record.cid1,jdbcType=BIGINT},
-      cid2 = #{record.cid2,jdbcType=BIGINT},
-      cid3 = #{record.cid3,jdbcType=BIGINT},
-      brand_id = #{record.brandId,jdbcType=BIGINT},
-      saleable = #{record.saleable,jdbcType=BIT},
-      valid = #{record.valid,jdbcType=BIT},
+      images = #{record.images,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=BIGINT},
+      indexes = #{record.indexes,jdbcType=VARCHAR},
+      own_spec = #{record.ownSpec,jdbcType=VARCHAR},
+      enable = #{record.enable,jdbcType=BIT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sam.orange.Spu">
-    update tb_spu
+  <update id="updateByPrimaryKeySelective" parameterType="com.sam.orange.Sku">
+    update tb_sku
     <set>
+      <if test="spuId != null">
+        spu_id = #{spuId,jdbcType=BIGINT},
+      </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="subTitle != null">
-        sub_title = #{subTitle,jdbcType=VARCHAR},
+      <if test="images != null">
+        images = #{images,jdbcType=VARCHAR},
       </if>
-      <if test="cid1 != null">
-        cid1 = #{cid1,jdbcType=BIGINT},
+      <if test="price != null">
+        price = #{price,jdbcType=BIGINT},
       </if>
-      <if test="cid2 != null">
-        cid2 = #{cid2,jdbcType=BIGINT},
+      <if test="indexes != null">
+        indexes = #{indexes,jdbcType=VARCHAR},
       </if>
-      <if test="cid3 != null">
-        cid3 = #{cid3,jdbcType=BIGINT},
+      <if test="ownSpec != null">
+        own_spec = #{ownSpec,jdbcType=VARCHAR},
       </if>
-      <if test="brandId != null">
-        brand_id = #{brandId,jdbcType=BIGINT},
-      </if>
-      <if test="saleable != null">
-        saleable = #{saleable,jdbcType=BIT},
-      </if>
-      <if test="valid != null">
-        valid = #{valid,jdbcType=BIT},
+      <if test="enable != null">
+        enable = #{enable,jdbcType=BIT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -288,37 +274,17 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sam.orange.Spu">
-    update tb_spu
-    set title = #{title,jdbcType=VARCHAR},
-      sub_title = #{subTitle,jdbcType=VARCHAR},
-      cid1 = #{cid1,jdbcType=BIGINT},
-      cid2 = #{cid2,jdbcType=BIGINT},
-      cid3 = #{cid3,jdbcType=BIGINT},
-      brand_id = #{brandId,jdbcType=BIGINT},
-      saleable = #{saleable,jdbcType=BIT},
-      valid = #{valid,jdbcType=BIT},
+  <update id="updateByPrimaryKey" parameterType="com.sam.orange.Sku">
+    update tb_sku
+    set spu_id = #{spuId,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      images = #{images,jdbcType=VARCHAR},
+      price = #{price,jdbcType=BIGINT},
+      indexes = #{indexes,jdbcType=VARCHAR},
+      own_spec = #{ownSpec,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="getSpuPage" resultMap="BaseResultMap">
-    SELECT
-     <include refid="Base_Column_List"></include>
-    FROM
-    tb_spu spu
-    <where>
-      <if test=" key != '' ">
-          spu.title LIKE CONCAT('%',#{key},'%')
-      </if>
-      <if test=" saleable == true ">
-          AND
-          spu.saleable = 1
-      </if>
-      <if test="saleable == false">
-          AND
-          spu.saleable = 2
-      </if>
-    </where>
-  </select>
 </mapper>

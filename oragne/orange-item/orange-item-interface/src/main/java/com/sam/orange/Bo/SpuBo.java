@@ -1,8 +1,11 @@
 package com.sam.orange.Bo;
 
+import com.sam.orange.Sku;
 import com.sam.orange.Spu;
 import com.sam.orange.SpuDetail;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * 商品业务对象
@@ -25,4 +28,9 @@ public class SpuBo extends Spu {
      * SPU商品信息
      */
     private SpuDetail spuDetail;
+
+    /**
+     * SKU商品信息
+     */
+    private List<Sku> skus;
 }

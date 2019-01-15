@@ -1,6 +1,7 @@
 package com.sam.orange.service;
 
 import com.sam.orange.SpecGroup;
+import com.sam.orange.SpecParam;
 
 import java.util.List;
 
@@ -18,4 +19,11 @@ public interface SpecificationService {
      * @return
      */
     List<SpecGroup> getListSpecGroupByCid(Long cid);
+
+    /**
+     * 根据分类ID获取规格参数
+     * @param cid
+     * @return
+     */
+    List<SpecParam> getListSpecParamByCid(Long cid);
 }

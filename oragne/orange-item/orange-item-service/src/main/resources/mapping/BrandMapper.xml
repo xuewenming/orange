@@ -234,4 +234,13 @@
       #{bid,jdbcType=BIGINT})
     </foreach>
   </insert>
+  <select id="getCateGroyAndBrandByCid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+      SELECT
+        <include refid="Base_Column_List"/>
+      FROM
+         tb_category_brand cb
+      LEFT JOIN tb_brand brand ON cb.brand_id = brand.id
+      WHERE
+        cb.category_id = #{cid}
+  </select>
 </mapper>

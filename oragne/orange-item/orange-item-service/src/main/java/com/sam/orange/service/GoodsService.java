@@ -20,4 +20,11 @@ public interface GoodsService {
      * @return
      */
     PageResult<SpuBo> getAllSpuPage(String key, Boolean saleable, Integer page, Integer rows);
+
+
+    /**
+     * 保存商品信息
+     * @param spuBo
+     */
+    void saveGoods(SpuBo spuBo);
 }

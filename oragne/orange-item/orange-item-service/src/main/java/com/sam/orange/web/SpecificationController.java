@@ -1,15 +1,13 @@
 package com.sam.orange.web;
 
 import com.sam.orange.SpecGroup;
+import com.sam.orange.SpecParam;
 import com.sam.orange.service.SpecificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,5 +36,19 @@ public class SpecificationController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(specGroups);
+    }
+
+    /**
+     * 获取规格参数
+     * @param cid
+     * @return
+     */
+    @GetMapping("params")
+    public ResponseEntity<List<SpecParam>> getSpecParamByCid(@RequestParam("cid") Long cid) {
+        List<SpecParam> specParams = specificationService.getListSpecParamByCid(cid);
+        if( CollectionUtils.isEmpty(specParams) ) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(specParams);
     }
 }

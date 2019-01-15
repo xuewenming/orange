@@ -45,12 +45,18 @@ public interface BrandMapper {
      */
     int addBrand(Brand brand);
 
-
     /**
      * 品牌和分类关系表
+     * @param cids
      * @param bid
-     * @param cid
      * @return
      */
     int addBrandAndCategroy(@Param("cids") List<Long> cids, @Param("bid") Long bid);
+
+    /**
+     * 根据分类ID查询品牌
+     * @param cid
+     * @return
+     */
+    List<Brand> getCateGroyAndBrandByCid(@Param("cid") Long cid);
 }

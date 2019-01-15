@@ -6,6 +6,7 @@ import com.sam.orange.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -59,4 +60,18 @@ public class BrandController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+
+    /**
+     * 根据分类ID查询商品品牌
+     * @param cid
+     * @return
+     */
+    @GetMapping("cid/{cid}")
+    public ResponseEntity<List<Brand>> getBrand(@PathVariable("cid") Long cid) {
+        List<Brand> brands = brandService.getBrandById(cid);
+        if (CollectionUtils.isEmpty(brands)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(brands);
+    }
 }
