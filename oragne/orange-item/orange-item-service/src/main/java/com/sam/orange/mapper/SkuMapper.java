@@ -28,4 +28,17 @@ public interface SkuMapper {
     int updateByPrimaryKeySelective(Sku record);
 
     int updateByPrimaryKey(Sku record);
+
+    /**
+     * 根据spuid查询Sku信息
+     * @param spuId
+     * @return
+     */
+    List<Sku> getSkusBySpuId(@Param("spuId") Long spuId);
+
+    /**
+     * 根据skuids删除sku信息
+     * @param skuIds
+     */
+    void deleteSkusById(@Param("skuIds") List<Long> skuIds);
 }

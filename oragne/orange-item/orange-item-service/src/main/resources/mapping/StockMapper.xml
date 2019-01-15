@@ -193,4 +193,22 @@
       stock = #{stock,jdbcType=INTEGER}
     where sku_id = #{skuId,jdbcType=BIGINT}
   </update>
+  <select id="getStockBySkuids" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    SELECT
+        <include refid="Base_Column_List"></include>
+    FROM
+    tb_stock stock
+    WHERE
+        stock.sku_id IN
+    <foreach collection="ids" item="item" index="index" open="("  close=")" separator=",">
+      #{item}
+    </foreach>
+  </select>
+  <delete id="deleteStockBySkuIds" parameterType="java.lang.Long">
+    DELETE FROM tb_stock stock WHERE stock.sku_id IN
+    <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+  </delete>
+
 </mapper>

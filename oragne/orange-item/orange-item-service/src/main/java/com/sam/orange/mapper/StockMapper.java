@@ -28,4 +28,17 @@ public interface StockMapper {
     int updateByPrimaryKeySelective(Stock record);
 
     int updateByPrimaryKey(Stock record);
+
+    /**
+     * 根据skuids查询Stock
+     * @param ids
+     * @return
+     */
+    List<Stock> getStockBySkuids(@Param("ids") List<Long> ids);
+
+    /**
+     * 根据skuids删除Stock信息
+     * @param ids
+     */
+    void deleteStockBySkuIds(@Param("ids") List<Long> ids);
 }

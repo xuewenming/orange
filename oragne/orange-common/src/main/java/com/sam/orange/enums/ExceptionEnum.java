@@ -21,7 +21,9 @@ public enum  ExceptionEnum {
     CATEGROYANDBRAND_INSERT_ERROR(500,"品牌和分类保存异常"),
     UPLOAD_FILE_TYPE_ERROR(500,"文件类型不匹配"),
     UPLOAD_FILE_ERROR(500,"文件上传失败"),
-    UPLOAD_FILE_IS_NULL(500,"文件不符合要求");
+    UPLOAD_FILE_IS_NULL(500,"文件不符合要求"),
+    FIND_STOCK_IS_NULL(500,"没有找到库存信息"),
+    UPDATE_GOODS_FIELD(500,"更新商品信息失败");
 
     private Integer code;
     private String msg;

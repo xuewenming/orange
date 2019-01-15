@@ -1,13 +1,21 @@
 package com.sam.orange.web;
 
 import com.sam.orange.Bo.SpuBo;
+import com.sam.orange.Sku;
+import com.sam.orange.SpuDetail;
+import com.sam.orange.enums.ExceptionEnum;
+import com.sam.orange.exception.OrangeException;
 import com.sam.orange.service.GoodsService;
 import com.sam.orange.vo.PageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 商品列表Controller
@@ -59,5 +67,45 @@ public class GoodsController {
         }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    /**
+     * 商品详细信息
+     * @param id
+     * @return
+     */
+    @GetMapping("spu/detail/{id}")
+    public ResponseEntity<SpuDetail> getSpuDetial(@PathVariable("id") Long id) {
+        SpuDetail spuDetail = goodsService.getSpuDetialById(id);
+        if (Objects.equals(spuDetail, null)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(spuDetail);
+    }
+
+    /**
+     * 商品详细信息-Sku
+     * @param id
+     * @return
+     */
+    @GetMapping("sku/list")
+    public ResponseEntity<List<Sku>> getSkuList(@RequestParam("id") Long id) {
+        List<Sku> skus = goodsService.getSkuList(id);
+        if (CollectionUtils.isEmpty(skus)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(skus);
+    }
+
+    @PutMapping("goods")
+    public ResponseEntity<Void> updateGoods(@RequestBody SpuBo spuBo) {
+        try {
+            goodsService.updateGoods(spuBo);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            log.error("商品更新失败",e);
+            throw new OrangeException(ExceptionEnum.UPDATE_GOODS_FIELD);
+        }
+    }
+
 
 }

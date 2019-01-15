@@ -3,9 +3,8 @@ package com.sam.orange.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sam.orange.Bo.SpuBo;
-import com.sam.orange.Sku;
-import com.sam.orange.Spu;
-import com.sam.orange.Stock;
+import com.sam.orange.*;
+import com.sam.orange.enums.ExceptionEnum;
 import com.sam.orange.exception.OrangeException;
 import com.sam.orange.mapper.*;
 import com.sam.orange.service.CategoryService;
@@ -16,10 +15,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -105,5 +106,60 @@ public class GoodsServiceImpl implements GoodsService {
             stock.setStock(sku.getStock());
             stockMapper.insert(stock);
         }
+    }
+
+    @Override
+    public SpuDetail getSpuDetialById(Long id) {
+        SpuDetail spuDetail = spuDetailMapper.selectByPrimaryKey(id);
+        return spuDetail;
+    }
+
+    @Override
+    public List<Sku> getSkuList(Long id) {
+        SkuExample example = new SkuExample();
+        example.createCriteria().andSpuIdEqualTo(id);
+        List<Sku> skus = skuMapper.selectByExample(example);
+        // 取出每一个skuId
+        List<Long> ids = skus.stream().map(Sku::getId).collect(Collectors.toList());
+        // 根据skuids查询Stocks
+        List<Stock> stocks = stockMapper.getStockBySkuids(ids);
+        if (CollectionUtils.isEmpty(stocks)) {
+            throw new OrangeException(ExceptionEnum.FIND_STOCK_IS_NULL);
+        }
+        Map<Long, Integer> map = stocks.stream().collect(Collectors.toMap(Stock::getSkuId, Stock::getStock));
+        skus.forEach(sku -> sku.setStock(map.get(sku.getId())));
+        return skus;
+    }
+
+    @Transactional
+    @Override
+    public void updateGoods(SpuBo spuBo) {
+        // 删除spu
+        spuMapper.deleteByPrimaryKey(spuBo.getId());
+        List<Sku> skus = skuMapper.getSkusBySpuId(spuBo.getId());
+        if (!CollectionUtils.isEmpty(skus)) {
+            List<Long> ids = skus.stream().map(sku -> sku.getId()).collect(Collectors.toList());
+            // 删除 stock
+            stockMapper.deleteStockBySkuIds(ids);
+
+            // 删除 sku
+            skuMapper.deleteSkusById(ids);
+
+            // 删除 spuDetial
+            spuDetailMapper.deleteByPrimaryKey(spuBo.getId());
+        }
+        // 保存SPU信息
+        spuBo.setSaleable(true);
+        spuBo.setValid(true);
+        spuBo.setCreateTime(new Date());
+        spuBo.setLastUpdateTime(new Date());
+        this.spuMapper.insert(spuBo);
+
+        // 保存SpuDetial
+        spuBo.getSpuDetail().setSpuId(spuBo.getId());
+        this.spuDetailMapper.insert(spuBo.getSpuDetail());
+
+        // 保存SKU和库存
+        saveSkuAndStock(spuBo.getSkus(), spuBo.getId());
     }
 }
