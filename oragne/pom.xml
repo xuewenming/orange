@@ -14,6 +14,7 @@
         <module>orange-item</module>
         <module>orange-api-gateway</module>
         <module>orange-upload</module>
+        <module>orange-search</module>
     </modules>
 
     <parent>

@@ -8,10 +8,12 @@ zuul:
   retryable: true
   routes: #路由正则
     item-service: /item/**
+    search-service: /search/**
     upload-service:
       path: /upload/**
       service-name: upload-service
       strip-prefix: false #带上upload
+
 
  # ignored-services: #忽略服务列表
  #   - upload-service # 忽略upload-service服务
